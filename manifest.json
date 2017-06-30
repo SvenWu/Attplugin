@@ -1,0 +1,36 @@
+{
+
+  "manifest_version": 2,
+  "name": "AttPlugin SWC Enhancement",
+  "version": "1.2",
+
+  "description": "Transform data from RTC to ATT",
+
+  "content_scripts": [
+    {
+
+      "matches": ["https://*.ibm.com/*/web/projects/*", "https://agiletool.mybluemix.net/"],
+      "js": ["config.js","attPlugin.js", "jquery-3.2.0.min.js"],
+      "css": ["attPlugin.css"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "icons": { "16": "icon-16.png",
+           "48": "icon-48.png",
+          "128": "icon-128.png" },
+
+  "permissions": [
+    "activeTab",
+    "webRequest",
+    "https://*.ibm.com/",
+    "https://agiletool.mybluemix.net/iteration",
+    "storage"
+  ],
+
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  }
+
+}

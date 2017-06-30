@@ -1,0 +1,11 @@
+1.2
+Story: as a ESW user, I don't have file-against field in RTC
+--------------------------------
+1.1
+Some bug fixed.
+Story: as swc user, I want to only use weekday for backlog and WIP day calculation.
+--------------------------------
+1.0
+SWC Enhanced:
+Story: as SWC user, I want use story's implement date and parent feature's creation date to calculate Cycle time in backlog.
+Story: as SWC user, I want to have an option to let me decide what's parent type I want to use

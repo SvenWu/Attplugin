@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head><title>Configure your plugin here</title>
+<style>
+    body: { padding: 10px; }
+
+    #content .form-group input: {
+	    width: 100%;
+	    padding: 12px 20px;
+	    margin: 8px 0;
+	    box-sizing: border-box;
+	}
+
+	#content .form-group label: {
+		font-weight: bold;
+	}
+
+	#content div.form-group: {
+		padding: 10px;
+		margin: 10px; 
+	}
+
+  </style>
+
+</head>
+<body>
+
+
+
+<div id="content">
+	
+	
+	<fieldset id="backlog">
+    <legend><h4>BACKLOG CYCLE TIME Configuration: How to calculate for a "Feature" (Patterns)</h4></legend>
+	</fieldset>
+
+	<fieldset id="wip">
+    <legend><h4>WORK IN PROGRESS CYCLE TIME Configuration: How to calculate for a "Story" (Patterns)</h4></legend>
+	</fieldset>
+
+	<fieldset id="defect">
+    <legend><h4>Defects Configuration: Defect Environment, internal state, key used to decide environment in RTC</h4></legend>
+	</fieldset>
+
+	<fieldset id="rtc">
+    <legend><h4>RTC Configuration: Main URL, Base Path & all Service URLs (Only for Developers)</h4></legend>
+	</fieldset>
+
+</div>
+
+<div id="status"></div>
+<br />
+<button id="save">Save</button>&nbsp;<button id="reset">Rest</button>
+<script src="config.js"></script>
+<script src="options.js"></script>
+</body>
+</html>
