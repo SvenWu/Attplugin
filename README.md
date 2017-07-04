@@ -2,6 +2,9 @@
 https://w3-connections.ibm.com/wikis/home?lang=en-us#!/wiki/W8fa413a9487e_413a_a167_63cb620203c3/page/Cycle%20time%20in%20Backlog%20and%20WIP%20-Concept%2C%20Calculation%20and%20Plugin%20Tool
 
 # Release note
+1.3
+as swc user, I want to use earliest implement time to calculate WIP (New -> in dev 1 -> new -> in dev 2. use in dev1 for WIP)
+--------------------------------
 1.2
 Story: as a ESW user, I don't have file-against field in RTC
 --------------------------------
