@@ -988,8 +988,6 @@
 	    return Math.ceil(delta - weekEnds);  
 	} 
 
-	
-
 	function RTCQuery($items) {
 
 		this.$defectsArr = [];
@@ -1177,19 +1175,29 @@
 
         modalHelper.setMessage('Looking into history - finding WIP_start_date &  WIP_end_date for #'+$id);
         var that = this;  
+        var earliestStartDate = new Date();
+        var latestEndDate = 0;
+        
         $rows.forEach(function($history, index) {
             // modalHelper.setMessage(JSON.stringify($history['content']));
             if ($history['content'].indexOfR(config.workStartsAt) > 0
-            	&& !('WIP_start_date' in that.$defectsArr[$index])
             ) {
-                that.$defectsArr[$index]['WIP_start_date'] = $history['modifiedDate'];
+            	var curr = new Date($history['modifiedDate']);
+            	if (earliestStartDate.getTime() >= curr.getTime()){
+            		earliestStartDate = curr;
+            		that.$defectsArr[$index]['WIP_start_date'] = $history['modifiedDate'];
+            	}
                 // modalHelper.setMessage('WIP_start_date'+$history['modifiedDate']);
             }
 
             if ($history['content'].indexOfR(config.workEndsAt) > 0
-            	&& !('WIP_end_date' in that.$defectsArr[$index])
             ) {
-                that.$defectsArr[$index]['WIP_end_date'] = $history['modifiedDate'];
+            	var curr = new Date($history['modifiedDate']);
+            	if (latestEndDate <= curr.getTime()){
+            		latestEndDate = curr;
+            		that.$defectsArr[$index]['WIP_end_date'] = $history['modifiedDate'];
+            	}
+                
                 // modalHelper.setMessage('WIP_end_date'+$history['modifiedDate']);
             }
 
@@ -1366,18 +1374,22 @@
 
 	}
 	
-	function getDate(items, identifier){
+	function getEearliestDate(items, identifier){
 		var $rows 
         = ((items['data']["soapenv:Body"]['response']['returnValue']['value']['changes']))?
         		items['data']['soapenv:Body']['response']['returnValue']['value']['changes']:[];
         
+        var earliestStartDate = new Date();
         var target;
+       
 	    $rows.forEach(function($history) {
-// console.log($history['content']);
 	        if ($history['content'].indexOfR(identifier) > 0
 	        ) {
-	        	target = $history['modifiedDate'];
-	        	return;
+	        	var curr = new Date($history['modifiedDate']);
+	         	if (earliestStartDate.getTime() >= curr.getTime()){
+	         		earliestStartDate = curr;
+	         		target = $history['modifiedDate'];
+	         	}
 	        }
 	    });
 
@@ -1387,7 +1399,7 @@
 	function processIBL($items, parent){
 		modalHelper.setMessage('Finding BL_start_date & BL_end_date  of #'+$items['id']+' for the workitem #'+this.$defectsArr[$items['index']]);
 		var $index = $items['index'];
-        var blEnd = getDate($items, config.backlogEndsAt);
+        var blEnd = getEearliestDate($items, config.backlogEndsAt);
         var $rows 
         = ((parent['data']["soapenv:Body"]['response']['returnValue']['value']['changes']))?
         		parent['data']['soapenv:Body']['response']['returnValue']['value']['changes']:[];
