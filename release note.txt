@@ -1,3 +1,6 @@
+1.3.1
+Refactor, 'sameday' date diff bug fix.
+--------------------------------
 1.3
 as swc user, I want to use earliest implement time to calculate WIP (New -> in dev 1 -> new -> in dev 2. use in dev1 for WIP)
 --------------------------------

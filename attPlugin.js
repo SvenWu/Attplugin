@@ -974,7 +974,7 @@
 	function dateDiffOnlyWeekday($date1, $date2) { 
 		var date1 = new Date($date1);
 		var date2 = new Date($date2);
-	    delta = (date2 - date1) / (1000 * 60 * 60 * 24) + 1; 
+	    delta = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24) + 1); 
 	 
 	    weekEnds = 0; 
 	    for(i = 0; i < delta; i++) 
@@ -1165,10 +1165,7 @@
 
 	RTCQuery.prototype.processWIP = function($items) {
           
-        $rows 
-            = (($items['data']["soapenv:Body"]['response']['returnValue']['value']['changes']))?
-            $items['data']['soapenv:Body']['response']['returnValue']['value']['changes']: 
-            [];
+        $rows = getHistoryData($items);
         var $id = $items['id'];
         var $index = $items['index'];
         
@@ -1223,15 +1220,11 @@
 	RTCQuery.prototype.processParentHistory = function($items) {
         modalHelper.setMessage('Finding BL_start_date & BL_end_date  of #'+$items['id']+' for the workitem #'+this.$defectsArr[$items['index']]);
         var $index = $items['index'];
-        var $rows 
-            = (($items['data']["soapenv:Body"]['response']['returnValue']['value']['changes']))?
-            $items['data']['soapenv:Body']['response']['returnValue']['value']['changes']: 
-            [];
+        var $rows = getHistoryData($items);
 
         var that = this;
         // console.log($rows);
         $rows.forEach(function($history, index) {
-        	modalHelper.setMessage('xxxxxx Finding the parent of '+$items['id']+ 'cccccc' + $history['modifiedDate']);
         	modalHelper.setMessage(JSON.stringify($history['content']));
         	if ($history['content'].indexOfR(config.backlogStartsAt) > 0
             	&& !('BL_start_date' in that.$defectsArr[$index])
@@ -1374,10 +1367,13 @@
 
 	}
 	
-	function getEearliestDate(items, identifier){
-		var $rows 
-        = ((items['data']["soapenv:Body"]['response']['returnValue']['value']['changes']))?
+	function getHistoryData(items){
+		return ((items['data']["soapenv:Body"]['response']['returnValue']['value']['changes']))?
         		items['data']['soapenv:Body']['response']['returnValue']['value']['changes']:[];
+	}
+	
+	function getEearliestDate(items, identifier){
+		var $rows = getHistoryData(items)
         
         var earliestStartDate = new Date();
         var target;
@@ -1400,9 +1396,7 @@
 		modalHelper.setMessage('Finding BL_start_date & BL_end_date  of #'+$items['id']+' for the workitem #'+this.$defectsArr[$items['index']]);
 		var $index = $items['index'];
         var blEnd = getEearliestDate($items, config.backlogEndsAt);
-        var $rows 
-        = ((parent['data']["soapenv:Body"]['response']['returnValue']['value']['changes']))?
-        		parent['data']['soapenv:Body']['response']['returnValue']['value']['changes']:[];
+        var $rows = getHistoryData(parent);
         		
     	if (config.backlogStartsAtCreation == 'true' 
         	|| (!('BL_start_date' in this.$defectsArr[$index]) && config.backlogStartsAtCreation == 'both')
@@ -1429,14 +1423,17 @@
         return true;    
 	}
 	
+	function getCategoryData(items){
+		return ((items['data']['soapenv:Body']['response']['returnValue']['value']['attributes']))?
+		        items['data']['soapenv:Body']['response']['returnValue']['value']['attributes']: 
+		            [];
+	}
+	
 	/**
 	 * Find filed against
 	 */
 	function getCategory($items){
-		var $rows 
-        = (($items['data']['soapenv:Body']['response']['returnValue']['value']['attributes']))?
-        $items['data']['soapenv:Body']['response']['returnValue']['value']['attributes']: 
-        [];
+		var $rows = getCategoryData($items);
         if ($rows.length > 0) {
 	        for ($key in $rows) {
 	        	var $value = $rows[$key];
@@ -1448,10 +1445,7 @@
 	}
 	
 	function getWorkItemType($items){
-		var $rows 
-        = (($items['data']['soapenv:Body']['response']['returnValue']['value']['attributes']))?
-        $items['data']['soapenv:Body']['response']['returnValue']['value']['attributes']: 
-        [];
+		var $rows = getCategoryData($items);
         if ($rows.length > 0) {
 	        for ($key in $rows) {
 	        	var $value = $rows[$key];
