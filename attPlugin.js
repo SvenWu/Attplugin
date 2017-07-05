@@ -984,7 +984,7 @@
 	        date1 += 1000 * 60 * 60 * 24; 
 	        date1 = new Date(date1); 
 	    } 
-	    console.log(Math.ceil(delta - weekEnds));
+//	    console.log(Math.ceil(delta - weekEnds));
 	    return Math.ceil(delta - weekEnds);  
 	} 
 
@@ -1091,9 +1091,9 @@
             // || $defect['workItemType']=='Feature'
             ) {
                 that.$sprintData['commStories']++;
-            	var commPoints = parseInt($defect['com.ibm.team.apt.attribute.complexity']);
-            	commPoints = !isNaN(commPoints)?commPoints:0;
-                that.$sprintData['commPoints'] +=  commPoints;
+            	var commPoints = getStoryPoint($defect['com.ibm.team.apt.attribute.complexity']);
+            	
+                that.$sprintData['commPoints'] += commPoints;
                 if ($defect['internalState'].indexOfR(config.workEndsAt, false) == -1) {
                     return;
                 }
@@ -1442,6 +1442,18 @@
 	            }
 	        }
 	    }
+	}
+	
+	function getStoryPoint(pointString){
+		if (typeof(pointString) =="undefined"){
+    		return 0;
+    	} else if (typeof(pointString) =="number"){
+    		return pointString;
+    	} else if (typeof(pointString) =="string"){
+    		return parseInt(pointString.replace(/[^0-9]/ig,""));
+    	}else {
+    		return 0;
+    	}
 	}
 	
 	function getWorkItemType($items){

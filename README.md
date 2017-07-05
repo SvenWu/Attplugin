@@ -2,6 +2,9 @@
 https://w3-connections.ibm.com/wikis/home?lang=en-us#!/wiki/W8fa413a9487e_413a_a167_63cb620203c3/page/Cycle%20time%20in%20Backlog%20and%20WIP%20-Concept%2C%20Calculation%20and%20Plugin%20Tool
 
 # Release note
+1.4
+as IM, I want this tool can collect committed story points and delivered story points
+--------------------------------
 1.3.1
 Refactor, 'sameday' date diff bug fix.
 --------------------------------
